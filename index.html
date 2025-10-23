@@ -9,6 +9,7 @@
   button { padding: 10px 15px; margin-top: 10px; cursor: pointer; }
   .result { background: white; padding: 15px; margin-top: 15px; border-radius: 5px; }
   small { display:block; margin-bottom:15px; color:#555; }
+  .crveno { color: red; font-weight: bold; }
 </style>
 </head>
 <body>
@@ -53,7 +54,7 @@ function izracunaj() {
     <p>Ukupna vrednost zgrade: <b>${Vuk.toFixed(2)} EUR</b></p>
     <p>Vrednost zgrade za vlasnike: <b>${Vdel.toFixed(2)} EUR</b></p>
     <p>Tvoj deo vrednosti: <b>${Vt.toFixed(2)} EUR</b></p>
-    <p>Tvoj deo kvadrature: <b>${Kt.toFixed(2)} m²</b></p>
+    <p class="crveno">Tvoj deo kvadrature: ${Kt.toFixed(2)} m²</p>
   `;
 }
 </script>
