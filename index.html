@@ -2,24 +2,33 @@
 <html lang="sr">
 <head>
 <meta charset="UTF-8">
-<title>Kalkulator udelа u zgradi</title>
+<title>Kalkulator udela u zgradi</title>
 <style>
   body { font-family: Arial; background: #f5f5f5; padding: 30px; }
   input { width: 100%; padding: 8px; margin: 5px 0; }
   button { padding: 10px 15px; margin-top: 10px; cursor: pointer; }
   .result { background: white; padding: 15px; margin-top: 15px; border-radius: 5px; }
   small { display:block; margin-bottom:15px; color:#555; }
-  .crveno { color: red; font-weight: bold; }
+  .okvir {
+    color: red;
+    font-weight: bold;
+    border: 2px solid red;
+    border-radius: 10px;
+    padding: 10px;
+    text-align: center;
+    background-color: #ffeaea;
+    margin-top: 10px;
+  }
 </style>
 </head>
 <body>
-<h2>Izračunaj svoj udeo u zgradi</h2>
+<h2>Kalkulator udela u zgradi</h2>
 <small>Ovaj kalkulator omogućava izračunavanje tvog dela u zgradi kod prodaje parcele.</small>
 
 <label>Kvadratura zgrade u izgradnji (m²):</label>
 <input type="number" id="Z">
 
-<label>Prodajna cena stana po m² (EUR):</label>
+<label>Cena po m² (EUR):</label>
 <input type="number" id="C">
 
 <label>Ukupna površina parcele (m²):</label>
@@ -37,27 +46,30 @@
 
 <script>
 function izracunaj() {
-  const Z = +document.getElementById('Z').value;
-  const C = +document.getElementById('C').value;
-  const T = +document.getElementById('T').value;
-  const D = +document.getElementById('D').value;
-  const P = +document.getElementById('P').value;
+  const Z = parseFloat(document.getElementById('Z').value);
+  const C = parseFloat(document.getElementById('C').value);
+  const T = parseFloat(document.getElementById('T').value);
+  const D = parseFloat(document.getElementById('D').value);
+  const P = parseFloat(document.getElementById('P').value);
 
-  const proc = D * 1000 / T;
+  if (isNaN(Z) || isNaN(C) || isNaN(T) || isNaN(D) || isNaN(P)) {
+    alert("Molimo unesite sve vrednosti.");
+    return;
+  }
+
   const Vuk = Z * C;
-  const Vdel = Vuk * P / 100;
-  const Vt = Vdel * proc / 1000;
-  const Kt = Vt / C;
+  const Vdel = Vuk * (P / 100);
+  const Vt = Vdel * (D / T);
+  const Kt = Math.round(Vt / C);
 
   document.getElementById('rezultat').innerHTML = `
     <h3>Izveštaj o udelu u zgradi</h3>
-    <p>Ukupna vrednost zgrade: <b>${Vuk.toFixed(2)} EUR</b></p>
-    <p>Vrednost zgrade za vlasnike: <b>${Vdel.toFixed(2)} EUR</b></p>
-    <p>Tvoj deo vrednosti: <b>${Vt.toFixed(2)} EUR</b></p>
-    <p class="crveno">Tvoj deo kvadrature: ${Kt.toFixed(2)} m²</p>
+    <p>Ukupna vrednost zgrade: <b>${Vuk.toFixed(0)} EUR</b></p>
+    <p>Vrednost zgrade za vlasnike: <b>${Vdel.toFixed(0)} EUR</b></p>
+    <p>Tvoj deo vrednosti: <b>${Vt.toFixed(0)} EUR</b></p>
+    <div class="okvir">Tvoj deo kvadrature: ${Kt} m²</div>
   `;
 }
 </script>
 </body>
 </html>
-
